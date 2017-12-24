@@ -27,17 +27,21 @@ def calc_var(alpha, period, hist_value, position):
 	cur_value = portfolio.value[len(portfolio)-1]
 	returns = get_returns(portfolio, period)
 	ppf = create_ppf(returns)
-	return -cur_value*ppf(alpha)[0]
+	var = -cur_value*ppf(alpha)
+	if hasattr(var, '__getitem__'):
+		return var[0]
+	else:
+		return var
 
 def calc_expsf(alpha, var_func, var_args):
 	'''Calcuales the expected shortfall given a var function and corresponding arguments'''
 	integral, err = scipy.integrate.quad(var_func, 0.0, alpha, args=var_args)
 	return (1.0/alpha) * integral 
 
-def calc_volatility(hist_value, lookback=30):
+def calc_volatility(hist_value, lookback, period):
 	hist_value = sample(hist_value, lookback)
-	daily_returns = get_returns(hist_value, 1)
-	vol = np.std(daily_returns)
+	returns = get_returns(hist_value, period)
+	vol = np.std(returns)
 	if hasattr(vol, '__getitem__'):
 		return vol[0]
 	else:
