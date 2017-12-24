@@ -20,7 +20,7 @@ def calculate_exposure(ether_pos, conf_int, period, lookback, hist_value):
 	print "Expected shortfall($): {}".format(round(exp_shortfall, 1))
 	return
 
-def calculate_vol_index(hist_value,lookback=60, trading_days_per_year = 365, period=30):
+def calculate_vol_index(hist_value,lookback=90, trading_days_per_year = 365, period=30):
     volatility= risk.calc_volatility(hist_value, lookback, period)
     periods_per_year = math.floor(float(trading_days_per_year)/float(period))
     vix = 100*math.sqrt(periods_per_year)*volatility
