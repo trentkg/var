@@ -14,5 +14,4 @@ def load_csv(filepath):
 					header=0,
 					converters={"time": _parse})
 	df.set_index("time",inplace=True)
-	#remove NaNs/check for NaNs
 	return df 
