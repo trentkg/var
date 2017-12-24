@@ -1,8 +1,49 @@
-Setting up the environment on linux
-----------------------------------
-1)
-2)
-3)
-Setting up the environment on windows 
-----------------------------------
+Setting up the environment
+--------------------------
+- The packages in requirements.txt must be installed and visible to python
+- In linux, assuming you have pip and virtualenv installed, you may run the following commands to setup the environment:
 
+	$ cd $PROJECT_DIR
+	$ mkdir venv
+	$ virtualenv venv
+	$ pip install -r requirements.txt 
+	$ . venv/bin/activate
+
+-Note that the code has only been tested with python 2.7
+
+Running the code
+------------------------
+
+- From the command line
+	$ cd $PROJECT_DIR
+	$ python run.py
+		if using linux, run.py may also invoked as an executable, assuming you have installed the virtualenv in venv: 	
+	$./run.py 
+		Optional command line arguments can be seen by running 
+	$./run.py --help
+
+- From the python shell
+	-Ensure you are in PROJECT_DIR 
+	> from run import main
+	> help(main) #Shows argument list
+	> main(1, .99, 10, 100)
+
+Leading assumptions
+----------------------
+-All historical pricing data was obtained from etherscan.io as of 2017-12-22. For simplicity this is included as a csv, instead of as an http request
+
+VAR
+- The distribution of returns is assumed to be normal. This assumption is not difficult to alter in the code - one only has 
+    to override the function "create_ppf" in risk.py to return a different percent-point function. Downstream calculations will
+    accept any ppf that takes a single argument, alpha.  
+
+Volatility Index
+- Uses the prior 60 days of data to calculate the volatility for 30-day
+   returns. This figure is then annualized (multipled by sqrt(365)) and
+   multiplied again by 100 to get the percent volatility in a year. 
+- Uses historical volatility (as opposed to implied volatility)
+- We did not assume reinvestement and instead use simple returns. 
+- Simple returns are assumed to be a random walk or Weiner Process
+- Changing this assumption is not as straightforward as with VAR and
+    would require further code changes
+- 365 trading days a year are assumed for ether. 
