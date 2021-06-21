@@ -1,3 +1,7 @@
+Purpose
+---
+This codebase was created as apart of coding challenge for an interview. The idea was to calculate the "VAR" (value at risk) of a cryptocurrency long or short position. 
+
 Setting up the environment
 --------------------------
 - The packages in requirements.txt must be installed and visible to python
